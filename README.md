@@ -3,7 +3,7 @@
 These tools are useful for working with face detection using OpenCV. They are writtin in Python 3 but should work with Python 2 relatively easily. I plan to continue to work and improve this collection, but would appreciate any feedback.
 
 
-### Prerequisites
+## Prerequisites
 
 Assumes you have the following installed:
 * Python 3
@@ -27,6 +27,37 @@ These scripts provide different functionality or use different algorithms:
   * --display_problems    : Will show a window of each failed image that has 0 or >1 faces in it (faces in a red rectangle)
   * --verbose (-f)        : Turn on verbose output (each file parsed, etc)
   
+## Sample Output, Using These Tools
+
+I like to use the DNN based face data evaluators for finding good face training data of individuals. For me to set that up:
+1. Download images that I want to train with into a local directory
+2. Run the python eval_face_trainin.py file against that directory and it will tell me overall how many images it thinks are "good" (one face meeting the confidence factor): 
+`python eval_face_training.py -d training_images -p deploy.prototxt.txt -m res10_300x300_ssd_iter_140000.caffemodel`
+3. The output will be something like this:
+```
+Evaluating directory: training_images
+   Total dirs: 2
+   Total files: 24
+   Total faces: 23
+   Total images: 24
+   Total good images: 21
+   Overall score: 87.5%
+   Execution time: 1.54642605782 seconds (0.0644344190756 sec avg per file)
+```
+4. I can see overall most of the images were good (yeah!) but I may want to throw some out. If I specify verbose (-v) then it will tell me specifically for each file how it did:
+```
+   ...
+loading file: training_images/s2/9.jpg
+   1 faces
+loading file: training_images/s2/12.jpg
+   0 faces
+loading file: training_images/s2/11.jpg
+   1 faces
+loading file: training_images/s2/10.jpg
+   ...
+ ```
+I can now remove/replace those files if I wish, or I can turn on '--display_problems' flag and run again and it will show me the images. This is also useful if I get an image that has more then 1 face in it.
+
 ## Authors
 
 * **Chris Whitten** - *Initial work* - [Github](https://github.com/whit1206)
